@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="shortcut icon"
+      href="../assets/images/favicon.ico"
+      type="image/x-icon"
+    />
+
+    <link rel="stylesheet" href="../assets/css/mainSolucao.css">
+
+    <script src="../assets/js/mainSolucao.js" defer></script>
+
+    <style>
+      /* estilo necessário pro modal */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+
+      .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 2em;
+        border: 1px solid #888;
+        width: 50%;
+      }
+
+      .modal-content h5 {
+        font-size: 1.5em;
+        margin: 1em;
+      }
+
+      .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+
+      .close:hover,
+      .close:focus {
+        color: #8000ff;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      main {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        align-items: center;
+      }
+
+      #openModalBtnItem {
+        background-color: #8000ff;
+        color: #fff;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+        padding: 1.5em 4em;
+        margin: 2em;
+        border-radius: 5px;
+      }
+
+      #openModalBtnItem:hover,
+      #criarItem button:hover {
+        opacity: 0.7;
+      }
+
+      /* estilo necessário pra area que faz get dos itens */
+      #criarItem {
+        display: flex;
+        flex-direction: column;
+        text-align: start;
+        font-size: 1.1em;
+        gap: 0.2em;
+      }
+
+      #criarItem input {
+        margin-bottom: 1em;
+        padding: 1em;
+      }
+
+      #criarItem button {
+        background-color: #8000ff;
+        color: #fff;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        padding: 1em;
+      }
+
+      #container-itens {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 5em;
+        padding: 2em;
+        background-color: #8000ff;
+        color: #fff;
+        font-weight: bold;
+        border-radius: 5px;
+      }
+    </style>
+
+    <title>Vision</title>
+  </head>
+  <body>
+    <nav>
+      <ul>
+        <li>
+          <img src="../assets/images/logoAlt.png" width="50" />
+        </li>
+        <li>
+          <a href="main.html" class="selected">Fazer pedido</a>
+        </li>
+        <li>
+          <a href="perfil.html">Meu Perfil</a>
+        </li>
+      </ul>
+    </nav>
+
+    <main>
+      <button id="openModalBtnItem">Criar um Item</button>
+
+      <div id="myModal" class="modal">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <h5>Preencha o formulário para adicionar um item</h5>
+
+          <form id="criarItem" method="post">
+            <label for="name">Nome</label>
+            <input type="text" id="name" name="name" required />
+
+            <label for="price">Preço</label>
+            <input type="number" id="price" name="price" required />
+
+            <button type="submit">Criar</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="itemCard">
+        <div id="container-itens"></div>
+      </div>
+
+      </div>
+    </main>
+
+    <script>
+      var openModalBtnItem = document.getElementById("openModalBtnItem");
+      var modal = document.getElementById("myModal");
+      var closeBtn = document.getElementsByClassName("close")[0];
+
+      openModalBtnItem.onclick = function () {
+        modal.style.display = "block";
+      };
+
+      closeBtn.onclick = function () {
+        modal.style.display = "none";
+      };
+
+      window.onclick = function (event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      };
+    </script>
+  </body>
+</html>

@@ -1,0 +1,38 @@
+@import url("https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&family=Truculenta:opsz,wght@12..72,100..900&display=swap");
+
+* {
+  font-family: "Archivo", sans-serif;
+  margin: 0;
+  padding: 0;
+  transition: 1s;
+}
+
+nav {
+  padding: 2em;
+  border-bottom: 1px solid #4158d0;
+  background: -webkit-linear-gradient(-135deg, #c850c0, #4158d0);
+}
+
+ul {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: bold;
+}
+
+a:hover {
+  color: #fff;
+}
+
+.selected {
+  border-bottom: 2px solid #fff;
+}
