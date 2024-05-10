@@ -19,10 +19,13 @@
         transition: 1s;
       }
 
+      body {
+        background: -webkit-linear-gradient(-135deg, #c850c0, #4158d0);
+        height: 100vh;
+      }
+
       nav {
         padding: 2em;
-        border-bottom: 1px solid #4158d0;
-        background: -webkit-linear-gradient(-135deg, #c850c0, #4158d0);
       }
 
       ul {
@@ -48,6 +51,70 @@
       .selected {
         border-bottom: 2px solid #fff;
       }
+
+      /* style pro conteudo principal */
+      main {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        align-items: center;
+      }
+
+      .itemCard {
+        background-color: #ffffffec;
+        width: 75vw;
+        border-radius: 5px;
+      }
+
+      .itemCard h2,
+      .carrinhoCard h2,
+      .pedidoCard h2 {
+        color: #8000ff;
+        margin: 1em;
+      }
+
+      .headItemCard {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      #openModalBtnItem {
+        background: none;
+        border: none;
+        color: #8000ff;
+        font-weight: bold;
+        font-size: 1em;
+        gap: 0.5em;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      #container-itens {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        gap: 5em;
+        padding: 2em;
+        margin: 2em;
+        background-color: #8000ff;
+        color: #fff;
+        font-weight: bold;
+        border-radius: 5px;
+        text-align: start;
+      }
+
+      .carrinhoCard,
+      .pedidoCard {
+        margin-top: 1em;
+        background-color: #ffffffec;
+        width: 75vw;
+        border-radius: 5px;
+      }
     </style>
 
     <title>Vision</title>
@@ -66,5 +133,34 @@
         </li>
       </ul>
     </nav>
+
+    <main> <!-- tag que serve para fazer a divisão pro conteudo principal -->
+      <div class="itemCard">
+        <div class="headItemCard">
+          <h2>Vitrine</h2>
+          <button id="openModalBtnItem">
+            <img src="../assets/images/square-plus-regular.svg" width="20" />
+            Criar novo Item
+          </button>
+        </div>
+
+        <div id="container-itens"></div>
+      </div>
+
+      <div class="carrinhoCard">
+        <div class="headCarrinhoCard">
+          <h2>Carrinho</h2>
+        </div>
+
+        <div id="quantidade-total-itens"></div>
+        <div id="container-carrinho"></div>
+      </div>
+
+      <div class="pedidoCard">
+        <div class="headPedidoCard">
+          <h2>Pedidos Feitos</h2>
+        </div>
+      </div>
+    </main>
   </body>
 </html>
