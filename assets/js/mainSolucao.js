@@ -1,13 +1,13 @@
-// modal no html
+// modal item no html para cadastrar
 var openModalBtnItem = document.getElementById("openModalBtnItem");
-var modal = document.getElementById("myModal");
-var closeBtn = document.getElementsByClassName("close")[0];
+var modal = document.getElementById("modalItem");
+var closeBtnItem = document.getElementById("closeItem");
 
 openModalBtnItem.onclick = function () {
   modal.style.display = "block";
 };
 
-closeBtn.onclick = function () {
+closeBtnItem.onclick = function () {
   modal.style.display = "none";
 };
 
@@ -17,74 +17,164 @@ window.onclick = function (event) {
   }
 };
 
-// form pra fazer post dos itens
-var formCadastro = document.getElementById("criarItem");
-
-formCadastro.addEventListener("submit", function (e) {
-  e.preventDefault();
-
-  var name = document.getElementById("name").value;
-  var price = document.getElementById("price").value;
-
-  fetch("http://localhost:8080/item/create", {
+// criar pedido e recuperar no html
+function enviarPedido() {
+  fetch("http://localhost:8080/pedido/create?userId=1", {
     method: "POST",
-    body: JSON.stringify({
-      name: name,
-      price: price,
-    }),
     headers: {
-      "Content-Type": "application/json; charset=UTF-8",
+      "Content-Type": "application/json",
     },
   })
-    .then(function (response) {
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Erro ao enviar pedido");
+      }
       return response.json();
     })
-    .then(function (data) {
-      alert("Item criado com sucesso!! ;D");
+    .then((data) => {
+      console.log("Pedido enviado com sucesso:", data);
       window.location.reload();
     })
-    .catch((error) => console.error("Error:", error));
-});
-
-// add itens criados ao carrinho
-let itensCarrinho = [];
-let quantidadeTotalItens = 0;
-
-function limparCarrinho() {
-  const containerCarrinho = document.getElementById("container-carrinho");
-  containerCarrinho.innerHTML = "";
-}
-
-function adicionarItemCarrinho(itemId, nomeItem, precoItem) {
-  const index = itensCarrinho.findIndex((item) => item.id === itemId);
-  if (index !== -1) {
-    itensCarrinho[index].quantidade++;
-  } else {
-    itensCarrinho.push({
-      id: itemId,
-      nome: nomeItem,
-      preco: precoItem,
-      quantidade: 1,
+    .catch((error) => {
+      console.error("Erro ao enviar pedido:", error);
     });
-  }
-
-  quantidadeTotalItens++;
-
-  document.getElementById("quantidade-total-itens").textContent =
-    quantidadeTotalItens;
 }
 
-// função que vai realmente adicionar os itens ao carrinho (depende das 2 funções anteriores)
-function carrinho(itemId, nomeItem, precoItem) {
-  adicionarItemCarrinho(itemId, nomeItem, precoItem);
+function buscarPedido() {
+  fetch(`http://localhost:8080/pedido/all`)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Erro ao buscar pedido");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      const pedidoId = document.getElementById("respostaPedido");
+      pedidoId.innerHTML = "";
 
-  limparCarrinho();
+      data.forEach((pedido) => {
+        var pedidoItem = document.createElement("div");
+        pedidoItem.classList.add("cardPedido");
 
-  itensCarrinho.forEach((item) => {
-    const itemElement = document.createElement("div");
-    itemElement.textContent = `${item.nome} - Quantidade: ${
-      item.quantidade
-    } - Preço Total: R$${item.preco * item.quantidade}`;
-    document.getElementById("container-carrinho").appendChild(itemElement);
+        var itensSolicitados = "<ul>";
+        pedido.itemList.forEach((item) => {
+          itensSolicitados += `<li>Nome: <p>${item.name}</p> | Preço: <p> R$ ${item.price},00</p></li>`;
+        });
+        itensSolicitados += "</ul>";
+
+        pedidoItem.innerHTML = `
+        <div>
+            <span>Pedido de número: <p> ${pedido.id} </p> </span>
+            <span>Itens nesse pedido: <p> ${itensSolicitados} </p> </span>
+        </div>
+      `;
+        pedidoId.appendChild(pedidoItem);
+      });
+    })
+    .catch((error) => {
+      console.error("Erro ao buscar pedido:", error);
+      document.getElementById("respostaPedido").innerHTML =
+        "Erro ao buscar pedido. Por favor, tente novamente.";
+    });
+}
+
+buscarPedido();
+
+// criar item e recuperar no html
+document
+  .getElementById("criarItem")
+  .addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const formData = new FormData(this);
+    const data = {
+      name: formData.get("name"),
+      price: parseFloat(formData.get("price")),
+    };
+
+    fetch("http://localhost:8080/item/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Erro ao criar item");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Item criado com sucesso:", data);
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.error("Erro:", error);
+      });
   });
+
+// buscar itens
+function buscarItens() {
+  fetch("http://localhost:8080/item/all")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Erro ao buscar itens");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      const container = document.getElementById("container-itens");
+      container.innerHTML = "";
+
+      data.forEach((item) => {
+        const itemDiv = document.createElement("div");
+        itemDiv.classList.add("item");
+        itemDiv.innerHTML = `
+              <p>Nome: ${item.name}</p>
+              <p>Preço: R$ ${item.price},00</p>
+              <button class="btnAssociacao" onclick="associarItemAoPedido(${item.id})">Associar ao Pedido</button>
+            `;
+        container.appendChild(itemDiv);
+      });
+    })
+    .catch((error) => {
+      console.error("Erro ao buscar itens:", error);
+      document.getElementById("container-itens").innerHTML =
+        "Erro ao buscar itens. Por favor, tente novamente.";
+    });
+}
+
+buscarItens();
+
+// associar itens a pedidos
+function associarItemAoPedido(itemId) {
+  const pedidoId = prompt("Informe o ID do pedido para associar o item:");
+  if (pedidoId) {
+    fetch(
+      `http://localhost:8080/pedido/addItem?pedidoId=${pedidoId}&itemId=${itemId}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ itemId: itemId }),
+      }
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Erro ao associar item ao pedido");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Item associado com sucesso:", data);
+        alert("Item associado com sucesso!");
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.error("Erro ao associar item ao pedido:", error);
+        alert("Erro ao associar item ao pedido. Por favor, tente novamente.");
+      });
+  }
 }
