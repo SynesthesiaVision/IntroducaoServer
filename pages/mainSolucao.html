@@ -29,9 +29,21 @@
     </nav>
 
     <main>
-      <div id="myModal" class="modal">
+      <div class="carrinhoCard">
+        <div class="headCarrinhoCard">
+          <h2>Carrinho</h2>
+          <button class="btnPedido" onclick="enviarPedido()">
+            <img src="../assets/images/square-plus-regular.svg" width="20" />
+            Fazer pedido / Criar carrinho
+          </button>
+        </div>
+
+        <div id="respostaPedido"></div>
+      </div>
+
+      <div id="modalItem" class="modal">
         <div class="modal-content">
-          <span class="close">&times;</span>
+          <span class="close" id="closeItem">&times;</span>
           <h5>Preencha o formulário para adicionar um item</h5>
 
           <form id="criarItem" method="post">
@@ -57,79 +69,6 @@
 
         <div id="container-itens"></div>
       </div>
-
-      <div class="carrinhoCard">
-        <div class="headCarrinhoCard">
-          <h2>Carrinho</h2>
-        </div>
-
-        <div id="quantidade-total-itens"></div>
-        <div id="container-carrinho"></div>
-      </div>
-
-      <div class="pedidoCard">
-        <div class="headPedidoCard">
-          <h2>Pedidos Feitos</h2>
-        </div>
-      </div>
     </main>
-
-    <script>
-      // form pra fazer get dos itens criados e exibir na tela
-      function getItemsFromServer() {
-        fetch("http://localhost:8080/item/all")
-          .then((response) => response.json())
-          .then((data) => {
-            var container = document.getElementById("container-itens");
-
-            data.forEach((item) => {
-              var itemDiv = document.createElement("div");
-              itemDiv.classList.add("item");
-
-              itemDiv.innerHTML = `
-        <div class="itemCriado">
-          <div style="" >
-            <p> Nome
-              <img src="../assets/images/tag-solid.svg" width="13">
-              <br>
-              <span style="opacity: 0.8;">${item.name}</span>  
-            </p>
-            <p> Preço 
-              <img src="../assets/images/dollar-sign-solid.svg" width="10">
-              <br>
-              <span style="opacity: 0.8">R$ ${item.price},00</span> 
-            </p>
-          </div>
-          <button class="btnBuy" data-id="${item.id}" data-name="${item.name}" data-price="${item.price}">
-            <img src="../assets/images/cart-plus-solid.svg" width="25">
-          </button>
-        </div>
-      `;
-
-              var btnBuy = itemDiv.querySelector(".btnBuy");
-              btnBuy.addEventListener("click", (event) => {
-                const itemID = itemDiv
-                  .querySelector(".btnBuy")
-                  .getAttribute("data-id");
-
-                const itemName = itemDiv
-                  .querySelector(".btnBuy")
-                  .getAttribute("data-name");
-
-                const itemPrice = itemDiv
-                  .querySelector(".btnBuy")
-                  .getAttribute("data-price");
-                carrinho(itemID, itemName, itemPrice);
-              });
-
-              container.appendChild(itemDiv);
-            });
-          })
-          .catch((error) => {
-            console.error("Erro ao obter o nome do usuário:", error);
-          });
-      }
-      document.addEventListener("DOMContentLoaded", getItemsFromServer);
-    </script>
   </body>
 </html>
