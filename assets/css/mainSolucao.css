@@ -9,7 +9,8 @@
 
 body {
   background: -webkit-linear-gradient(-135deg, #c850c0, #4158d0);
-  height: 100vh;
+  background-repeat: no-repeat;
+  min-height: 100vh;
 }
 
 nav {
@@ -40,23 +41,6 @@ a:hover {
   border-bottom: 2px solid #fff;
 }
 
-.btnBuy {
-  background: none;
-  border: none;
-  cursor: pointer;
-  height: 25px;
-  margin: 0 auto;
-}
-
-.itemCriado {
-  border: 1px solid white;
-  padding: 1em;
-  border-radius: 5px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .modal {
   display: none;
   position: fixed;
@@ -82,30 +66,6 @@ a:hover {
   margin: 1em;
 }
 
-.close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-  color: #8000ff;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-main {
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: center;
-  align-items: center;
-}
-
 #openModalBtnItem {
   background: none;
   border: none;
@@ -124,6 +84,31 @@ main {
   opacity: 0.7;
 }
 
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #8000ff;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+main {
+  margin: 0;
+  padding: 0;
+  gap: 2em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+}
+
 /* estilo necessário pra area que faz get dos itens */
 .itemCard {
   background-color: #ffffffec;
@@ -132,8 +117,7 @@ main {
 }
 
 .itemCard h2,
-.carrinhoCard h2,
-.pedidoCard h2 {
+.carrinhoCard h2 {
   color: #8000ff;
   margin: 1em;
 }
@@ -180,10 +164,81 @@ main {
   text-align: start;
 }
 
-.carrinhoCard,
-.pedidoCard {
+.carrinhoCard {
   margin-top: 1em;
   background-color: #ffffffec;
   width: 75vw;
   border-radius: 5px;
+}
+
+.btnPedido {
+  background: none;
+  border: none;
+  color: #8000ff;
+  gap: 0.5em;
+  font-weight: bold;
+  font-size: 1em;
+  margin-bottom: 2em;
+  cursor: pointer;
+  text-align: center;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+}
+
+#respostaPedido {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5em;
+  padding: 2em;
+  margin: 2em;
+  background-color: #8000ff;
+  color: #fff;
+  font-weight: bold;
+  border-radius: 5px;
+  text-align: start;
+}
+
+.cardPedido {
+  border: 1px solid #fff;
+  border-radius: 5px;
+  margin: 0 auto;
+  width: 20em;
+  padding: 1em;
+}
+
+.cardPedido ul {
+  display: flex;
+  flex-direction: column;
+}
+
+.cardPedido li {
+  display: flex;
+  margin: 1em;
+}
+
+.cardPedido p {
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+}
+
+.cardPedido span {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.btnAssociacao {
+  background: none;
+  border: none;
+  margin-top: 1em;
+  text-decoration: underline;
+  color: #fff;
+  font-weight: bold;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+.btnAssociacao:hover {
+  opacity: 0.6;
 }
